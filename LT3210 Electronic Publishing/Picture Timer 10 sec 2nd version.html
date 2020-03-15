@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body {
+		background-color: #7FFFD4;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		}
+	</style>
+	<script>
+		var x = 0;
+		var t = 0;
+		var timer1;
+		var timer2;
+		
+		function Start()
+		{
+			x = -50;
+			t = 10;
+			document.getElementById("TimeLeft").innerHTML =  t + " seconds left";
+
+			timer1 = setInterval("draw()", 1000);
+			timer2 = setInterval("TakenTime()", 1000);
+		}
+		function TakenTime() 
+		{
+			t--;
+			if (t == 0) 
+			{
+				clearInterval(timer2);
+			}
+			document.getElementById("TimeLeft").innerHTML =  t + " seconds left";
+		}
+		
+		function draw()
+		{
+			var canvas = document.getElementById("myCanvas");
+			var ctx = canvas.getContext("2d");
+			
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			x = x + 50;
+
+			var img = document.getElementById("clock");
+			ctx.drawImage(img, x, 0, 50, 50);
+
+			if (x + 50 == canvas.width) {
+			clearInterval(timer1);
+			}
+		}
+		
+		function Next() 
+		{
+			clearInterval(timer1);
+			clearInterval(timer2);
+			Start();
+		}
+	</script>
+</head>
+<body>
+	<canvas id="myCanvas" width="500" height="50"></canvas>
+	<img id="clock" src="Picture Timer 10 sec_Tiger.png" width="50" height="50" hidden>
+	<img src="Picture Timer 10 sec_Player.png" width="50" height="50"><br/>
+	<button onclick="Start()">Start</button><br/>
+	<button onclick="Next()">Next</button><br/>
+	<p id="TimeLeft"></p>
+</body>
+</html>

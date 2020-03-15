@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html>
+<!-- This is a basic version of the translation game -->
+<head>
+<title>LT3210 project: a basic version</title>
+<script src="chinese_level1.js" id="ch"></script>
+<script src="english_level1.js" id="en"></script>
+<script>
+
+
+var wordIndex = 0;
+var score = 0;
+var rect_x = 0;
+var rect_y = 0;
+var timer;
+var turn = 0;
+var level = 1;
+
+
+
+
+var countdownTimer;
+var secondsLeft = 0;
+
+function levelUp(){
+	score = 0;
+	turn = 0;
+	if(level == 1){
+		document.getElementById("ch").src = "chinese_level2.js";
+		document.getElementById("en").src = "english_level2.js";
+		window.alert("level 2!!!!!");
+	}
+
+	else if(level == 2){
+		document.getElementById("ch").src = "chinese_level3.js";
+		document.getElementById("en").src = "english_level3.js";
+		window.alert("level 3!!!!!");
+	}
+	
+	else if(level == 3){
+		document.getElementById("ch").src = "chinese_level4.js";
+		document.getElementById("en").src = "english_level4.js";
+		window.alert("level 4!!!!!");
+	}
+	
+	
+	
+}
+
+function check(){
+	if(turn >=　2 &&　score >= 1)
+		levelUp();
+
+}
+
+
+function getRandomIndex()
+{
+    var random_num = chinese1.length * Math.random();
+	var random_word = Math.floor(random_num);
+	return random_word;
+}
+function draw()
+{
+    var Timeline = document.getElementById("myTimeline");
+	var ctx = Timeline.getContext("2d");
+	
+	rect_x -= 10;
+	rect_y += 0;
+	
+	ctx.fillStyle = "red";
+	ctx.fillRect(rect_x, rect_y,10,10);
+	
+	if ((rect_x + 100) == Timeline.width)
+	{
+	   reset();
+	}
+	function reset()
+	{
+		clearInterval(timer);
+		ctx.clearRect(0,0, Timeline.width, Timeline.height);
+		
+		rect_x = 100;
+		rect_y = 0;
+		timer = setInterval("draw()",1000);
+	}	
+}
+
+function setTimer()
+{	
+	secondsLeft = 10;
+	countdownTimer = setInterval("countdown()", 1000);
+}
+
+function countdown()
+{
+	secondsLeft--;
+	document.getElementById("message").innerHTML = secondsLeft + " seconds left";
+	
+	if (secondsLeft == 0)
+	{
+		play();
+	}
+}
+
+function start()
+{   
+    rect_x = 100;
+	rect_y = 0;
+	
+	timer = setInterval("draw()",1000);
+	
+	
+	wordIndex = getRandomIndex();
+	document.getElementById("display").innerHTML = chinese1[wordIndex];
+	
+	setTimer();
+}
+
+function play()
+{
+	clearInterval(countdownTimer);
+	
+	var answer = document.getElementById("input_answer").value;
+	var correct_answer = english1[wordIndex];
+	
+	var myFeedback = "You're right!";
+	if (answer != correct_answer)
+	{
+ 		myFeedback = "The correct answer was " + correct_answer + ".";
+	}
+	else
+	{
+		score++;
+	}
+	turn++;
+	check();
+	document.getElementById("feedback").innerHTML = myFeedback;
+	document.getElementById("myScore").innerHTML = "Score: " + score;
+	
+	wordIndex++;
+	//wordIndex = getRandomIndex();
+	if (wordIndex == english1.length)
+	{
+		wordIndex = getRandomIndex();
+	}
+	document.getElementById("display").innerHTML = chinese1[wordIndex];
+	
+	document.getElementById("input_answer").value = "";
+	setTimer();
+	
+	
+}
+function hints()
+{
+    var hintAnswer = english1[wordIndex].replace(/a|e|i|o|u/g, "*");
+    document.getElementById("input_answer").value = hintAnswer;
+}
+
+</script>
+
+</head>
+<body>
+
+<button onclick="start()">Start</button>
+<br />
+
+<p id="display"></p>
+<br />
+
+<form>
+Translate into English: <input type="text" id="input_answer">
+</form>
+
+<p id="feedback">Click on "Start" to start the game.</p>
+
+<p id="myScore">Score: 0</p>
+
+<button onclick="play()">Next Word</button>
+<button onclick="hints()">Give me a hint!</button>
+
+<p id="message">10 seconds left</p>
+<canvas id="myTimeline" width="100" height="100"></canvas>
+
+</body>
+</html>

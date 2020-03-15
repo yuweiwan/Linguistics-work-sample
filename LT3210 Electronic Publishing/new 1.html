@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<!-- This is a basic version of the translation game -->
+<head>
+<title>LT3210 project: a basic version</title>
+<script src="chinese_level1.js"></script>
+<script src="english_level1.js"></script>
+
+<script src="chinese_level2.js"></script>
+<script src="english_level2.js"></script>
+
+<script src="chinese_level3.js"></script>
+<script src="english_level3.js"></script>
+
+<script src="chinese_level4.js"></script>
+<script src="english_level4.js"></script>
+
+<script>
+
+
+// Global variable to keep track of the current word index
+var wordIndex = 0;
+var score = 0;
+
+// Start the game
+function start1()
+{
+	wordIndex = 0;
+	document.getElementById("display").innerHTML = chinese1[wordIndex];
+}
+
+function start2()
+{
+	wordIndex = 0;
+	document.getElementById("display").innerHTML = chinese2[wordIndex];
+}
+
+function start3()
+{
+	wordIndex = 0;
+	document.getElementById("display").innerHTML = chinese3[wordIndex];
+	
+}function start4()
+{
+	wordIndex = 0;
+	document.getElementById("display").innerHTML = chinese4[wordIndex];
+}
+
+function play()
+{
+	// Get player's answer and model answer
+	var answer = document.getElementById("input_answer").value;
+	var correct_answer = english1[wordIndex];
+	
+	// Give feedback
+	var myFeedback = "You're right!";
+	if (answer != correct_answer)
+	{
+ 		myFeedback = "The correct answer was " + correct_answer + ".";
+	}
+	else
+	{
+		score++;
+	}
+	document.getElementById("feedback").innerHTML = myFeedback;
+	document.getElementById("myScore").innerHTML = "Score: " + score;
+
+	// Display next word
+	wordIndex++;
+	if (wordIndex == english1.length)
+	{
+		wordIndex = 0;
+	}
+	document.getElementById("display").innerHTML = chinese1[wordIndex];
+
+}
+</script>
+
+</head>
+
+<body>
+
+<h1>Translation Game</h1>
+
+<h2>Select level</h2>
+<button onclick="start1()">Level1</button>
+<button id=level2 onclick="start2()">Level2</button>
+<button onclick="start3()">Level3</button>
+<button onclick="start4()">Level4</button>
+
+
+<br />
+
+<p id="display"></p>
+<br />
+
+<form>
+Translate into English: <input type="text" id="input_answer">
+</form>
+
+<p id="feedback">Click on "Start" to start the game.</p>
+
+<p id="myScore">Score: 0</p>
+
+<button onclick="play()">Next Word</button>
+
+</body>
+</html>

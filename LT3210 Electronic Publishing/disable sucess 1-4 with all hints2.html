@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<!-- This is a basic version of the translation game -->
+<head>
+<title>LT3210 project: a basic version</title>
+
+<style>
+ body{
+	background-image:url("forest-23_.jpg");
+}
+p{
+	color: white;
+	font-family: "Times New Roman";
+	font-size:30px;
+	text-shadow: 2px 2px #000000;
+}
+h1{
+	color: #ffffff;
+	background-image:url("tiger-pattern-1.jpg");
+	font: italic bold 3em "Comic Sans MS";
+	text-align:center;
+	border:5px solid skyblue;
+	border-radius:30px;
+	text-shadow: 2px 2px #000000;
+}
+button{
+background-color: #00e6e6;
+border; none;
+color:white;
+padding:10px 32px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 32px;
+margin: 4px 2px;
+cursor: pointer;
+border-radius: 12px;
+}
+button:hover{
+background-color: yellow;
+color:green;
+}	
+#myScore{
+	font-size:30px;
+	font-weight:bold;
+	font-style:oblique;
+	text-shadow: 2px 2px #000000;
+}
+.span1{
+	color:#ff00ff;
+	font-size:35px;
+	text-shadow: 2px 2px #000000;
+}
+.span2{
+	color: white;
+	font-family: "Times New Roman";
+	font-size:30px;
+	text-shadow: 2px 2px #000000;
+}
+
+</style>
+<script src="chinese_level1.js"></script>
+<script src="english_level1.js"></script>
+
+<script src="chinese_level2.js"></script>
+<script src="english_level2.js"></script>
+
+<script src="chinese_level3.js"></script>
+<script src="english_level3.js"></script>
+
+<script src="chinese_level4.js"></script>
+<script src="english_level4.js"></script>
+
+<script>
+// Global variable to keep track of the current word index
+var wordIndex = 0;
+var score = 0;
+var question_no = 0;
+var countdownTimer;
+var secondsLeft = 0;
+
+function level1()
+{
+	document.getElementById("button2").disabled = true;
+	document.getElementById("button3").disabled = true;
+	document.getElementById("button4").disabled = true;
+	document.getElementById("next").disabled = true;
+	document.getElementById("next_hint").disabled = true;
+	document.getElementById("button2").style.color = "white";
+	document.getElementById("button3").style.color = "white";
+	document.getElementById("button4").style.color = "white";
+}
+
+function myFunction()
+{
+	location.reload();
+}
+
+function getRandomIndex()
+{
+    var random_num = chinese1.length * Math.random();
+	var random_word = Math.floor(random_num);
+	return random_word;
+}
+
+function getRandomIndex2()
+{
+    var random_num = chinese2.length * Math.random();
+	var random_word = Math.floor(random_num);
+	return random_word;
+}
+
+function getRandomIndex3()
+{
+    var random_num = chinese3.length * Math.random();
+	var random_word = Math.floor(random_num);
+	return random_word;
+}
+
+function getRandomIndex4()
+{
+    var random_num = chinese4.length * Math.random();
+	var random_word = Math.floor(random_num);
+	return random_word;
+}
+
+function setTimer()
+{	
+	secondsLeft = 15;
+	countdownTimer = setInterval("countdown()", 1000);
+}
+
+function countdown()
+{
+	secondsLeft--;
+	document.getElementById("message").innerHTML = secondsLeft + " seconds left";
+	
+	if (secondsLeft == 0)
+	{
+		play();
+	}
+}
+// Start the game
+function start1()
+{	
+	wordIndex = getRandomIndex();
+	document.getElementById("display").innerHTML = chinese1[wordIndex];
+	setTimer();
+	
+	question_no++;
+	document.getElementById("question_no").innerHTML = "Question" + question_no;
+	document.getElementById("next").disabled = false;
+	document.getElementById("next_hint").disabled = false;
+}
+
+function start2()
+{
+	clearInterval(countdownTimer);
+	wordIndex = getRandomIndex2();
+	document.getElementById("display").innerHTML = chinese2[wordIndex];
+	setTimer();
+	
+	question_no++;
+	document.getElementById("question_no").innerHTML = "Question" + question_no;
+	document.getElementById("next").disabled = false;
+	document.getElementById("next").setAttribute( "onClick", "javascript: play2();" );
+	document.getElementById("next_hint").disabled = false;
+	document.getElementById("next_hint").setAttribute( "onClick", "javascript: hints2();" );
+}	
+function start3()
+{
+	clearInterval(countdownTimer);
+	wordIndex = getRandomIndex3();
+	document.getElementById("display").innerHTML = chinese3[wordIndex];
+	setTimer();
+	
+	question_no++;
+	document.getElementById("question_no").innerHTML = "Question" + question_no;
+	document.getElementById("next").disabled = false;
+	document.getElementById("next").setAttribute( "onClick", "javascript: play3();" );
+	document.getElementById("next_hint").disabled = false;
+	document.getElementById("next_hint").setAttribute( "onClick", "javascript: hints3();" );	
+}
+function start4()
+{
+	clearInterval(countdownTimer);
+	wordIndex = getRandomIndex4();
+	document.getElementById("display").innerHTML = chinese4[wordIndex];
+	setTimer();
+	
+	question_no++;
+	document.getElementById("question_no").innerHTML = "Question" + question_no;
+	document.getElementById("next").disabled = false;
+	document.getElementById("next").setAttribute( "onClick", "javascript: play4();" );
+	document.getElementById("next_hint").disabled = false;
+	document.getElementById("next_hint").setAttribute( "onClick", "javascript: hints4();" );
+}
+
+function play()
+{
+	clearInterval(countdownTimer);
+	// Get player's answer and model answer
+	var answer = document.getElementById("input_answer").value;
+	var correct_answer = english1[wordIndex];
+	
+	// Give feedback
+	var myFeedback = "You're right!";
+	if (answer != correct_answer)
+	{
+ 		myFeedback = "The correct answer was " + correct_answer + ".";
+	}
+	else
+	{
+		score++;
+	}
+	document.getElementById("feedback").innerHTML = myFeedback;
+	document.getElementById("myScore").innerHTML = "Score: " + score;
+
+	// Display random word
+	wordIndex = getRandomIndex();
+	
+	document.getElementById("display").innerHTML = chinese1[wordIndex];
+
+	document.getElementById("input_answer").value = "";
+	setTimer();
+	
+	question_no++;
+	document.getElementById("question_no").innerHTML = "Question" + question_no;
+	
+	if( question_no == 3 && score >= 1)
+	{
+	window.alert("LEVEL UP!");
+	document.getElementById("button1").disabled = true;
+	document.getElementById("button2").disabled = false;
+	document.getElementById("next").disabled = true;
+	document.getElementById("next_hint").disabled = true;
+	document.getElementById("button1").style.color = "white";
+	document.getElementById("button3").style.color = "white";
+	document.getElementById("button4").style.color = "white";
+	document.getElementById("button2").style.color = "red";
+	question_no = question_no -1;
+	clearInterval(countdownTimer);
+	document.getElementById("display").innerHTML = "";
+	document.getElementById("message").innerHTML = "";
+	document.getElementById("feedback").innerHTML = "Click on &#34;Level 2&#34; to start the game.";
+	}
+	else if ( question_no ==3 && score <= 0)
+	{
+	window.alert("TRY AGAIN!");
+	myFunction();
+	}
+}	
+	
+function play2()
+{
+	clearInterval(countdownTimer);
+	
+	// Get player's answer and model answer
+	var answer = document.getElementById("input_answer").value;
+	var correct_answer = english2[wordIndex];
+	
+	// Give feedback
+	var myFeedback = "You're right!";
+	if (answer != correct_answer)
+	{
+ 		myFeedback = "The correct answer was " + correct_answer + ".";
+	}
+	else
+	{
+		score++;
+	}
+	document.getElementById("feedback").innerHTML = myFeedback;
+	document.getElementById("myScore").innerHTML = "Score: " + score;
+
+	// Display random word
+	wordIndex = getRandomIndex2();
+	document.getElementById("display").innerHTML = chinese2[wordIndex];
+
+	document.getElementById("input_answer").value = "";
+	setTimer();
+	
+	question_no++;
+	document.getElementById("question_no").innerHTML = "Question" + question_no;
+
+	if( question_no == 5 && score >= 2)
+	{
+	window.alert("LEVEL UP!");
+	document.getElementById("button2").disabled = true;
+	document.getElementById("button3").disabled = false;
+	document.getElementById("next").disabled = true;
+	document.getElementById("next_hint").disabled = true;
+	document.getElementById("button1").style.color = "white";
+	document.getElementById("button2").style.color = "white";
+	document.getElementById("button4").style.color = "white";
+	document.getElementById("button3").style.color = "red";
+	question_no = question_no -1;
+	clearInterval(countdownTimer);
+	document.getElementById("display").innerHTML = "";
+	document.getElementById("message").innerHTML = "";
+	document.getElementById("feedback").innerHTML = "Click on &#34;Level 3&#34; to start the game.";
+	}
+	else if ( question_no ==5 && score <= 1)
+	{
+	window.alert("TRY AGAIN!");
+	myFunction();
+	}
+}
+
+function play3()
+{
+	clearInterval(countdownTimer);
+	
+	// Get player's answer and model answer
+	var answer = document.getElementById("input_answer").value;
+	var correct_answer = english3[wordIndex];
+	
+	// Give feedback
+	var myFeedback = "You're right!";
+	if (answer != correct_answer)
+	{
+ 		myFeedback = "The correct answer was " + correct_answer + ".";
+	}
+	else
+	{
+		score++;
+	}
+	document.getElementById("feedback").innerHTML = myFeedback;
+	document.getElementById("myScore").innerHTML = "Score: " + score;
+
+	// Display random word
+	wordIndex = getRandomIndex3();
+	document.getElementById("display").innerHTML = chinese3[wordIndex];
+
+	document.getElementById("input_answer").value = "";
+	setTimer();
+	
+	question_no++;
+	document.getElementById("question_no").innerHTML = "Question" + question_no;
+
+	if( question_no == 8 && score >= 3)
+	{
+	window.alert("LEVEL UP!");
+	document.getElementById("button3").disabled = true;
+	document.getElementById("button4").disabled = false;
+	document.getElementById("next").disabled = true;
+	document.getElementById("next_hint").disabled = true;
+	document.getElementById("button1").style.color = "white";
+	document.getElementById("button2").style.color = "white";
+	document.getElementById("button3").style.color = "white";
+	document.getElementById("button4").style.color = "red";
+	question_no = question_no -1;
+	clearInterval(countdownTimer);
+	document.getElementById("display").innerHTML = "";
+	document.getElementById("message").innerHTML = "";
+	document.getElementById("feedback").innerHTML = "Click on &#34;Level 4&#34; to start the game.";
+	}
+	else if ( question_no ==8 && score <= 2)
+	{
+	window.alert("TRY AGAIN!");
+	myFunction();
+	}	
+}
+
+function play4()
+{
+	clearInterval(countdownTimer);
+	
+	// Get player's answer and model answer
+	var answer = document.getElementById("input_answer").value;
+	var correct_answer = english4[wordIndex];
+	
+	// Give feedback
+	var myFeedback = "You're right!";
+	if (answer != correct_answer)
+	{
+ 		myFeedback = "The correct answer was " + correct_answer + ".";
+	}
+	else
+	{
+		score++;
+	}
+	document.getElementById("feedback").innerHTML = myFeedback;
+	document.getElementById("myScore").innerHTML = "Score: " + score;
+
+	// Display random word
+	wordIndex = getRandomIndex4();
+	document.getElementById("display").innerHTML = chinese4[wordIndex];
+
+	document.getElementById("input_answer").value = "";
+	setTimer();
+	
+	question_no++;
+	document.getElementById("question_no").innerHTML = "Question" + question_no;
+
+	if( question_no == 12 && score >= 4)
+	{
+	window.alert("GOOD JOB!");
+	}
+	else if ( question_no ==12 && score <= 3)
+	{
+	window.alert("TRY AGAIN!");
+	myFunction();
+	}	
+}
+
+function hints()
+{
+	var wrongIndex1 = getRandomIndex();
+	var wrongIndex2 = getRandomIndex();
+
+	var myChoices = [];
+	myChoices[0] = english1[wrongIndex1];
+	myChoices[1] = english1[wrongIndex2];
+	myChoices[2] = english1[wordIndex];
+	
+	myChoices.sort();
+
+	var mc = myChoices[0] + " / " + myChoices[1] + " / " + myChoices[2] ;
+	document.getElementById("feedback").innerHTML = mc;
+}
+function hints2()
+{
+	var hintMessage = "The answer has " + english2[wordIndex].length + " letters.";
+    document.getElementById("feedback").innerHTML = hintMessage;
+	var hintAnswer = english2[wordIndex].substr(0,2);
+	document.getElementById("input_answer").value = hintAnswer;
+}
+function hints3()
+{
+	var hintMessage = "The answer has " + english3[wordIndex].length + " letters.";
+    document.getElementById("feedback").innerHTML = hintMessage;
+}
+function hints4()
+{
+	var hintAnswer = english4[wordIndex].replace(/a|e|i|o|u/g,"*");
+	document.getElementById("input_answer").value = hintAnswer;
+}
+
+</script>
+
+</head>
+
+<body onload="level1()">
+
+<h1>Have A Narrow Escape From Tiger
+<br/>
+(Translation Game)</h1>
+<button id="button1" onclick="start1()">Level1</button>
+<button id="button2" onclick="start2()">Level2</button>
+<button id="button3" onclick="start3()">Level3</button>
+<button id="button4" onclick="start4()">Level4</button>
+<br /><br />
+<p id="question_no"></p>
+<p id="display"></p>
+<br />
+
+<form>
+<span class="span2">Translate into English: </span><input type="text" id="input_answer">
+</form>
+
+<p id="feedback">Click on <span class="span1">"Level 1"</span> to start the game.</p>
+
+<p id="myScore">Score: 0</p>
+
+<button id="next" onclick="play()">Next Word</button>
+<button id="next_hint" onclick="hints()">Give me a hint!</button>
+
+<p id="message">15 seconds left</p>
+</body>
+</html>

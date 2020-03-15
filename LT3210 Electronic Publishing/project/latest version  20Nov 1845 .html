@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<!-- This is a basic version of the translation game -->
+<head>
+<title>LT3210 project: a basic version</title>
+<script src="dictionary/chinese_level1.js"></script>
+<script src="dictionary/english_level1.js"></script>
+<script src="dictionary/chinese_level2.js"></script>
+<script src="dictionary/english_level2.js"></script>
+<script src="dictionary/chinese_level3.js"></script>
+<script src="dictionary/english_level3.js"></script>
+<script src="dictionary/chinese_level4.js"></script>
+<script src="dictionary/english_level4.js"></script>
+<script src="source/source.js"></script>
+<script src="source/animation.js"></script>
+<style src="animation.css"></style>
+<style>
+
+body{
+	background-image:url(ba.jpg);
+	text-align: center;
+}
+p{
+	color: black;
+	font-family: "Verdana";
+	font-size:26px;
+}
+h1{
+	color: #ffffff;
+	background-image:url("tiger-pattern-1.jpg");
+	font: italic bold 3em "Arial";
+	text-align:center;
+	border:5px solid #734d26;
+	border-radius:30px;
+	text-shadow: 2px 2px #000000;
+	margin : 10px 300px 10px 300px;
+}
+button{
+ 
+	   background-color: #3CB371;
+	   border: none;
+	   color:white;
+	   padding:10px 20px;
+	   text-align: center;
+	   text-decoration: none;
+	   display: inline-block;
+	   font-size: 30px;
+	   margin: 4px 2px;
+	   cursor: pointer;
+	   border-radius: 12px;
+	   font-family:"Courier New";
+}
+button:hover{
+ background-color: #006400;
+}	
+#myScore{
+	font-size:30px;
+	font-weight:bold;
+	font-style:oblique;
+}
+.span1{
+	color:#008080;
+	font-size:32px;
+}
+.span2{
+	color: #404040;
+	font-family: "Verdana";
+	font-size:28px;
+}
+#display{
+    font-weight:900;
+}
+</style>
+
+<script>
+//used to be js ~
+</script>
+
+</head>
+
+<body onload="level1()">
+
+<!-- This is the main part of the game -->
+<div>
+ 
+ <h1>Have A Narrow Escape From Tiger
+<br/>
+(Translation Game)</h1>
+
+<button id="button1" onclick="start1()">Level 1</button>
+<button id="button2" onclick="start2()">Level 2</button>
+<button id="button3" onclick="start3()">Level 3</button>
+<button id="button4" onclick="start4()">Level 4</button>
+<br /><br />
+<p id="question_no"></p>
+<p id="display"></p>
+<br />
+
+<form>
+<span class="span2">Translate into English: </span><input type="text" id="input_answer">
+</form>
+
+<p id="feedback">Click on <span class="span1">"Level 1"</span> to start the game.</p>
+
+<p id="myScore">Score: 0</p>
+
+<button id="next" onclick="play()">Next Word</button>
+<button id="next_hint" onclick="hints()">Give me a hint!</button>
+<p id="hint_no">You have 5 hints left.</p>
+
+ 
+ 
+</div>
+
+
+<!-- This is the animation part of the game (count down) -->
+<div>
+ 
+	<p id="Para"></p>
+	<canvas id="myCanvas" width="750" height="100"></canvas>
+	<img id="clock" src="Picture Timer 15 sec_Tiger.png" width="100" height="100" hidden>
+	<img src="Picture Timer 15 sec_Player.png" width="100" height="100"><br/>
+	<p id="TimeLeft"></p>
+</div>
+
+
+</body>
+</html>
